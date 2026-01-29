@@ -1,0 +1,249 @@
+import Link from 'next/link';
+import Pagination from '@/components/shared/pagination';
+import ProductCard from '@/components/shared/product/product-card';
+import {
+  getAllCategories,
+  getAllProducts,
+} from '@/lib/actions/product.actions';
+import { Button } from '@/components/ui/button';
+
+const prices = [
+  { name: '$1 to $50', value: '1-50' },
+  { name: '$51 to $100', value: '51-100' },
+  { name: '$101 to $200', value: '101-200' },
+  { name: '$201 to $500', value: '201-500' },
+  { name: '$501 to $1000', value: '501-1000' },
+];
+
+const ratings = [4, 3, 2, 1];
+const sortOrders = ['newest', 'lowest', 'highest', 'rating'];
+
+const normalizeProducts = (products: any[]) =>
+  products.map((p) => ({
+    ...p,
+    price: Number(p.price),
+    rating: Number(p.rating),
+    images: Array.isArray(p.images)
+      ? p.images
+      : JSON.parse(p.images),
+  }));
+
+export async function generateMetadata(props: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    price?: string;
+    rating?: string;
+  }>;
+}) {
+  const {
+    q = 'all',
+    category = 'all',
+    price = 'all',
+    rating = 'all',
+  } = await props.searchParams;
+
+  const parts: string[] = [];
+
+  if (q !== 'all' && q.trim() !== '') parts.push(q);
+  if (category !== 'all') parts.push(`Category ${category}`);
+  if (price !== 'all') parts.push(`Price ${price}`);
+  if (rating !== 'all') parts.push(`Rating ${rating}+`);
+
+  return {
+    title: parts.length
+      ? `Search ${parts.join(' | ')}`
+      : 'Search Products',
+  };
+}
+
+const SearchPage = async (props: {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+    price?: string;
+    rating?: string;
+    sort?: string;
+    page?: string;
+  }>;
+}) => {
+  const {
+    q = 'all',
+    category = 'all',
+    price = 'all',
+    rating = 'all',
+    sort = 'newest',
+    page = '1',
+  } = await props.searchParams;
+
+  const categories = await getAllCategories();
+
+  const productsRaw = await getAllProducts({
+    query: q === 'all' ? undefined : q,
+    category: category === 'all' ? undefined : category,
+    price: price === 'all' ? undefined : price,
+    rating: rating === 'all' ? undefined : rating,
+    sort,
+    page: Number(page),
+  });
+
+  const products = {
+    ...productsRaw,
+    data: normalizeProducts(productsRaw.data),
+  };
+
+  const getFilterUrl = ({
+    c,
+    s,
+    p,
+    r,
+    pg,
+  }: {
+    c?: string;
+    s?: string;
+    p?: string;
+    r?: string;
+    pg?: string;
+  }) => {
+    const params: any = {
+      q,
+      category,
+      price,
+      rating,
+      sort,
+      page,
+    };
+
+    if (c) params.category = c;
+    if (s) params.sort = s;
+    if (p) params.price = p;
+    if (r) params.rating = r;
+    if (pg) params.page = pg;
+
+    return `/search?${new URLSearchParams(params).toString()}`;
+  };
+
+  return (
+    <div className='grid md:grid-cols-5 md:gap-5'>
+      <div className='space-y-6'>
+        <div>
+          <div className='text-xl mb-2'>Department</div>
+          <ul className='space-y-1'>
+            <li>
+              <Link
+                className={`${category === 'all' && 'font-bold'}`}
+                href={getFilterUrl({ c: 'all' })}
+              >
+                Any
+              </Link>
+            </li>
+            {categories.map((x) => (
+              <li key={x.category}>
+                <Link
+                  className={`${x.category === category && 'font-bold'}`}
+                  href={getFilterUrl({ c: x.category })}
+                >
+                  {x.category}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className='text-xl mb-2'>Price</div>
+          <ul className='space-y-1'>
+            <li>
+              <Link
+                className={`${price === 'all' && 'font-bold'}`}
+                href={getFilterUrl({ p: 'all' })}
+              >
+                Any
+              </Link>
+            </li>
+            {prices.map((p) => (
+              <li key={p.value}>
+                <Link
+                  className={`${p.value === price && 'font-bold'}`}
+                  href={getFilterUrl({ p: p.value })}
+                >
+                  {p.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className='text-xl mb-2'>Customer Review</div>
+          <ul className='space-y-1'>
+            <li>
+              <Link
+                className={`${rating === 'all' && 'font-bold'}`}
+                href={getFilterUrl({ r: 'all' })}
+              >
+                Any
+              </Link>
+            </li>
+            {ratings.map((r) => (
+              <li key={r}>
+                <Link
+                  className={`${rating === r.toString() && 'font-bold'}`}
+                  href={getFilterUrl({ r: r.toString() })}
+                >
+                  {r} stars & up
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className='md:col-span-4 space-y-4'>
+        <div className='flex-between flex-col md:flex-row'>
+          <div>
+            {q !== 'all' && `Query: ${q} `}
+            {category !== 'all' && `Category: ${category} `}
+            {price !== 'all' && `Price: ${price} `}
+            {rating !== 'all' && `Rating: ${rating}+ `}
+
+            {(q !== 'all' ||
+              category !== 'all' ||
+              price !== 'all' ||
+              rating !== 'all') && (
+              <Button asChild variant='link'>
+                <Link href='/search'>Clear</Link>
+              </Button>
+            )}
+          </div>
+
+          <div>
+            Sort by:{' '}
+            {sortOrders.map((s) => (
+              <Link
+                key={s}
+                href={getFilterUrl({ s })}
+                className={`mx-2 ${sort === s && 'font-bold'}`}
+              >
+                {s}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
+          {products.data.length === 0 && (
+            <div>No product found</div>
+          )}
+          {products.data.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+        {products.totalPages > 1 && (
+          <Pagination
+            page={Number(page)}
+            totalPages={products.totalPages}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SearchPage;
