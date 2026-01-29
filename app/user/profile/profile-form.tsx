@@ -29,7 +29,6 @@ const ProfileForm = () => {
     },
   });
 
-  // ✅ KLJUČNI FIX
   useEffect(() => {
     if (session?.user) {
       form.reset({

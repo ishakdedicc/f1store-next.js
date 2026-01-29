@@ -37,12 +37,10 @@ export const addItemToCart = async (data: CartItem) => {
     const session = await auth();
     const userId = session?.user?.id;
 
-    // Get existing cart
     const cart = await prisma.cart.findFirst({
       where: userId ? { userId } : { sessionCartId },
     });
 
-    // Get product
     const product = await prisma.product.findUnique({
       where: { id: data.productId },
     });
@@ -57,9 +55,6 @@ export const addItemToCart = async (data: CartItem) => {
       image,
     });
 
-    // -----------------------------
-    // CREATE CART
-    // -----------------------------
     if (!cart) {
       const newCart = {
         userId,
@@ -79,10 +74,6 @@ export const addItemToCart = async (data: CartItem) => {
         message: 'Item added to cart',
       };
     }
-
-    // -----------------------------
-    // UPDATE CART
-    // -----------------------------
     const existingItem = (cart.items as CartItem[]).find(
       (x) => x.productId === item.productId
     );
@@ -155,7 +146,7 @@ export async function getMyCart() {
 
       return {
         ...item,
-        image: product?.images?.[0] ?? '', // ✅ always string
+        image: product?.images?.[0] ?? '', 
       };
     })
   );
@@ -172,33 +163,27 @@ export async function getMyCart() {
 
 export async function removeItemFromCart(productId: string) {
   try {
-    // Get session cart id
     const sessionCartId = (await cookies()).get('sessionCartId')?.value;
     if (!sessionCartId) throw new Error('Cart Session not found');
 
-    // Get product
     const product = await prisma.product.findFirst({
       where: { id: productId },
     });
     if (!product) throw new Error('Product not found');
 
-    // Get user cart
     const cart = await getMyCart();
     if (!cart) throw new Error('Cart not found');
 
     const items = cart.items as CartItem[];
 
-    // Check if item exists
     const exist = items.find((x) => x.productId === productId);
     if (!exist) throw new Error('Item not found');
 
     let updatedItems: CartItem[];
 
     if (exist.qty === 1) {
-      // Remove item
       updatedItems = items.filter((x) => x.productId !== productId);
     } else {
-      // Decrease quantity
       updatedItems = items.map((x) =>
         x.productId === productId
           ? { ...x, qty: x.qty - 1 }
@@ -206,7 +191,6 @@ export async function removeItemFromCart(productId: string) {
       );
     }
 
-    // Update DB
     await prisma.cart.update({
       where: { id: cart.id },
       data: {

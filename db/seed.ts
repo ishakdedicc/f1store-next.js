@@ -10,7 +10,6 @@ async function main() {
   await prisma.product.deleteMany();
   await prisma.user.deleteMany();
 
-  // Products
   const products = sampleData.products.map((product) => ({
     ...product,
     images: JSON.stringify(product.images),
@@ -19,8 +18,7 @@ async function main() {
   await prisma.product.createMany({
     data: products,
   });
-
-  // Users 
+ 
   await prisma.user.createMany({
     data: sampleData.users,
   });

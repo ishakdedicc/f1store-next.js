@@ -7,13 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import slugify from 'slugify';
 import Image from 'next/image';
 import { toast } from 'sonner';
-
 import { insertProductSchema } from '@/lib/validator';
 import { productDefaultValues } from '@/lib/constants';
 import { createProduct, updateProduct } from '@/lib/actions/product.actions';
 import { Product } from '@/types';
-
-/* ---------------- UI ---------------- */
 import {
   Form,
   FormControl,
@@ -27,13 +24,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
-
-/* ---------------- Upload ---------------- */
 import { UploadButton } from '@/lib/uploadthing';
 
-/**
- * INPUT tip (forma prima user input)
- */
 type FormValues = z.input<typeof insertProductSchema>;
 
 const ProductForm = ({
@@ -66,9 +58,6 @@ const ProductForm = ({
   const isFeatured = form.watch('isFeatured');
   const banner = form.watch('banner');
 
-  /**
-   * SUBMIT
-   */
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     const parsed = insertProductSchema.parse(values);
 
@@ -107,9 +96,7 @@ const ProductForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        {/* NAME + SLUG */}
         <div className='flex flex-col md:flex-row gap-5'>
-          {/* NAME */}
           <FormField
             control={form.control}
             name='name'
@@ -124,7 +111,6 @@ const ProductForm = ({
             )}
           />
 
-          {/* SLUG */}
           <FormField
             control={form.control}
             name='slug'
@@ -164,7 +150,6 @@ const ProductForm = ({
           />
         </div>
 
-        {/* CATEGORY + BRAND */}
         <div className='flex flex-col md:flex-row gap-5'>
           <FormField
             control={form.control}
@@ -195,7 +180,6 @@ const ProductForm = ({
           />
         </div>
 
-        {/* PRICE + STOCK */}
         <div className='flex flex-col md:flex-row gap-5'>
           <FormField
             control={form.control}
@@ -238,7 +222,6 @@ const ProductForm = ({
           />
         </div>
 
-        {/* IMAGES WITH REMOVE (X) */}
         <FormField
           control={form.control}
           name='images'
@@ -298,7 +281,6 @@ const ProductForm = ({
           )}
         />
 
-        {/* FEATURED */}
         <Card>
           <CardContent className='space-y-4'>
             <FormField
@@ -342,7 +324,6 @@ const ProductForm = ({
           </CardContent>
         </Card>
 
-        {/* DESCRIPTION */}
         <FormField
           control={form.control}
           name='description'
@@ -361,7 +342,6 @@ const ProductForm = ({
           )}
         />
 
-        {/* SUBMIT */}
         <Button
           type='submit'
           size='lg'

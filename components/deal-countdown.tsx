@@ -5,10 +5,8 @@ import { Button } from './ui/button';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-// Static target date (replace with desired date)
 const TARGET_DATE = new Date('2026-02-01T00:00:00');
 
-// Function to calculate time remaining
 const calculateTimeRemaining = (targetDate: Date) => {
   const currentTime = new Date();
   const timeDifference = Math.max(Number(targetDate) - Number(currentTime), 0);
@@ -26,14 +24,12 @@ const DealCountdown = () => {
   const [time, setTime] = useState<ReturnType<typeof calculateTimeRemaining>>();
 
   useEffect(() => {
-    // Calculate initial time remaining on the client
     setTime(calculateTimeRemaining(TARGET_DATE));
 
     const timerInterval = setInterval(() => {
       const newTime = calculateTimeRemaining(TARGET_DATE);
       setTime(newTime);
 
-      // Clear when countdown is over
       if (
         newTime.days === 0 &&
         newTime.hours === 0 &&
@@ -47,7 +43,6 @@ const DealCountdown = () => {
     return () => clearInterval(timerInterval);
   }, []);
 
-  // Render a loading state during hydration
   if (!time) {
     return (
       <section className='grid grid-cols-1 md:grid-cols-2 my-20'>
@@ -58,7 +53,6 @@ const DealCountdown = () => {
     );
   }
 
-  // If the countdown is over, display fallback UI
   if (
     time.days === 0 &&
     time.hours === 0 &&

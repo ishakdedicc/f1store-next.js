@@ -28,7 +28,6 @@ const OrderDetailsPage = async ({
     redirect('/unauthorized');
   }
 
-  /* ---------------- STRIPE PAYMENT INTENT ---------------- */
   let stripeClientSecret: string | null = null;
 
   if (order.paymentMethod === 'Stripe' && !order.isPaid) {
@@ -45,7 +44,6 @@ const OrderDetailsPage = async ({
     stripeClientSecret = paymentIntent.client_secret;
   }
 
-  /* ---------------- NORMALIZE ORDER (CRITICAL) ---------------- */
   const normalizedOrder = {
     ...order,
     itemsPrice: Number(order.itemsPrice),

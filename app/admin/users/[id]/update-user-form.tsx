@@ -66,7 +66,6 @@ const UpdateUserForm = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className='space-y-4'
       >
-        {/* EMAIL */}
         <FormField
           control={form.control}
           name='email'
@@ -85,7 +84,6 @@ const UpdateUserForm = ({
           )}
         />
 
-        {/* NAME */}
         <FormField
           control={form.control}
           name='name'
@@ -103,7 +101,6 @@ const UpdateUserForm = ({
           )}
         />
 
-        {/* ROLE */}
         <FormField
           control={form.control}
           name='role'
@@ -132,7 +129,6 @@ const UpdateUserForm = ({
           )}
         />
 
-        {/* SUBMIT */}
         <Button
           type='submit'
           className='w-full'

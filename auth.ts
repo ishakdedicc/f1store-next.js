@@ -21,13 +21,11 @@ export const config = {
   adapter: PrismaAdapter(prisma),
 
   providers: [
-    // 🔐 GOOGLE LOGIN
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
 
-    // 🔐 EMAIL + PASSWORD LOGIN
     CredentialsProvider({
       credentials: {
         email: { type: 'email' },
@@ -61,14 +59,12 @@ export const config = {
 
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      // 🔹 prvi login (Google ili Credentials)
       if (user) {
         token.id = user.id;
         token.role = (user as any).role ?? 'user';
         token.name = user.name;
       }
 
-      // 🔹 MERGE guest cart → user cart NA LOGIN
       if (trigger === 'signIn') {
         const cookieStore = await cookies();
         const sessionCartId = cookieStore.get('sessionCartId')?.value;
@@ -91,7 +87,6 @@ export const config = {
         }
       }
 
-      // 🔹 profile update
       if (trigger === 'update' && session?.user?.name) {
         token.name = session.user.name;
       }

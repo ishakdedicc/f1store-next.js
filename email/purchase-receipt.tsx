@@ -21,7 +21,6 @@ type OrderInformationProps = {
   order: Order;
 };
 
-/* ---------------- PREVIEW DATA (DEV ONLY) ---------------- */
 PurchaseReceiptEmail.PreviewProps = {
   order: {
     id: crypto.randomUUID(),
@@ -67,12 +66,10 @@ PurchaseReceiptEmail.PreviewProps = {
   },
 } satisfies OrderInformationProps;
 
-/* ---------------- DATE FORMATTER ---------------- */
 const dateFormatter = new Intl.DateTimeFormat('en', {
   dateStyle: 'medium',
 });
 
-/* ---------------- EMAIL COMPONENT ---------------- */
 export default function PurchaseReceiptEmail({
   order,
 }: {
@@ -89,7 +86,6 @@ export default function PurchaseReceiptEmail({
           <Container className="max-w-xl mx-auto">
             <Heading>Purchase Receipt</Heading>
 
-            {/* ORDER INFO */}
             <Section>
               <Row>
                 <Column>
@@ -113,7 +109,6 @@ export default function PurchaseReceiptEmail({
               </Row>
             </Section>
 
-            {/* ITEMS */}
             <Section className="border border-gray-300 rounded-lg p-4 my-4">
               {order.orderItems.map((item) => (
                 <Row key={item.productId} className="mt-6">
@@ -144,7 +139,6 @@ export default function PurchaseReceiptEmail({
                 </Row>
               ))}
 
-              {/* TOTALS */}
               {[
                 { name: 'Items', price: order.itemsPrice },
                 { name: 'Tax', price: order.taxPrice },

@@ -135,7 +135,6 @@ const OrderDetailsTable = ({
       </h1>
 
       <div className="grid md:grid-cols-3 md:gap-5">
-        {/* LEFT */}
         <div className="md:col-span-2 space-y-4">
           <Card>
             <CardContent className="p-4 space-y-2">
@@ -212,7 +211,6 @@ const OrderDetailsTable = ({
           </Card>
         </div>
 
-        {/* RIGHT */}
         <div>
           <Card>
             <CardContent className="p-4 space-y-4">

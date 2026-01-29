@@ -49,19 +49,16 @@ export async function getAllProducts({
 }) {
   const where: any = {};
 
-  /* SEARCH */
   if (query) {
     where.name = {
       contains: query,
     };
   }
 
-  /* CATEGORY */
   if (category) {
     where.category = category;
   }
 
-  /* PRICE */
   if (price) {
     const [min, max] = price.split('-').map(Number);
 
@@ -71,14 +68,12 @@ export async function getAllProducts({
     };
   }
 
-  /* RATING */
   if (rating) {
     where.rating = {
       gte: Number(rating),
     };
   }
 
-  /* SORT */
   let orderBy: any = { createdAt: 'desc' };
 
   if (sort === 'lowest') orderBy = { price: 'asc' };
