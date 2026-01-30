@@ -37,9 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # E-COMMERCE (F1 – Store)
 
-## Projekat iz predmeta
-
-**Napredne tehnike internet programiranja**
+## Projekat iz predmeta Napredne tehnike internet programiranja
 
 **Univerzitet u Bihaću – Tehnički fakultet**  
 Odsjek: Elektrotehnički  
