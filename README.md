@@ -39,8 +39,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Projekat iz predmeta Napredne tehnike internet programiranja
 
---
-
 ## OPIS PROJEKTA
 
 U okviru ovog projekta razvijena je e-commerce web aplikacija korištenjem **Next.js** frameworka baziranog na **React** biblioteci, uz primjenu **TypeScript** jezika. Aplikacija koristi **SQLite** bazu podataka, dok je za rad sa bazom implementiran **Prisma ORM**. Autentikacija i autorizacija korisnika realizovana je pomoću **NextAuth** biblioteke, uključujući podršku za klasičnu prijavu i **Google OAuth** autentikaciju.
