@@ -39,16 +39,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Projekat iz predmeta Napredne tehnike internet programiranja
 
-**Univerzitet u Bihaću – Tehnički fakultet**  
-Odsjek: Elektrotehnički  
-Smjer: Informatika i računarstvo
-
-**Student:** Ishak Dedić  
-**Broj indexa:** 1222  
-**Predmetni nastavnik:** Van. prof. dr. Jasna Hamzabegović  
-**Predmetni asistent:** MA Zinaid Kapić  
-**Akademska godina:** 2025/26
-
 ---
 
 ## OPIS PROJEKTA
