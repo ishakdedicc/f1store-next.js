@@ -45,7 +45,7 @@ U okviru ovog projekta razvijena je e-commerce web aplikacija korištenjem **Nex
 
 Korisničke forme implementirane su korištenjem **React Hook Form**, dok je validacija podataka izvršena pomoću **Zod** biblioteke. Korisnički interfejs izrađen je uz pomoć **shadcn/ui** komponenti. Aplikacija podržava svijetli i tamni način prikaza, dok je **ESLint** korišten za održavanje kvaliteta i konzistentnosti koda.
 
-Sistem plaćanja uključuje integraciju sa **Stripe API-jem** i **PayPal** servisom, uz korištenje sandbox/test okruženja i webhook mehanizama za obradu statusa transakcija, kao i opciju plaćanja pouzećem. Administratorski dio aplikacije omogućava upravljanje proizvodima, narudžbama i korisnicima, te prikaz statističkih podataka o prodaji uz grafički prikaz implementiran pomoću **Recharts** biblioteke.
+Sistem plaćanja uključuje integraciju sa **Stripe API-jem** i **PayPal** servisom, uz korištenje sandbox/test okruženja i webhook mehanizama za obradu statusa transakcija, kao i opciju plaćanja pouzećem. Administratorski dio aplikacije omogućava upravljanje proizvodima, narudžbama i korisnicima, te prikaz statističkih podataka o prodaji uz grafički prikaz.
 
 Za upload i upravljanje slikama proizvoda korišten je **Uploadthing** servis. Implementiran je sistem ocjena i recenzija proizvoda, kao i funkcionalnosti pretrage, sortiranja, filtriranja i paginacije. Nakon uspješno završene kupovine, korisnicima se automatski šalje račun putem emaila korištenjem **Resend API** servisa.
 
